@@ -14,10 +14,30 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection")));
 });
 
-//builder.Services.AddIdentity<AppUser, IdentityRole>()
-//        .AddEntityFrameworkStores<AppDbContext>();
-
 builder.Services.AddIdentityWithExt();
+
+
+
+
+
+
+
+
+
+
+
+builder.Services.ConfigureApplicationCookie(opt =>
+{
+    var cookieBuilder = new CookieBuilder();
+    cookieBuilder.Name = "UdemyAppCookie";
+    opt.LoginPath = new PathString("/Home/Signin");
+    opt.LogoutPath = new PathString("/Home/logout");
+    // opt.AccessDeniedPath = new PathString("/Member/AccessDenied");
+    opt.Cookie = cookieBuilder;
+    opt.ExpireTimeSpan = TimeSpan.FromDays(60);
+    opt.SlidingExpiration = true;
+
+});
 
 var app = builder.Build();
 
@@ -35,6 +55,13 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+
+
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

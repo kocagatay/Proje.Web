@@ -12,13 +12,13 @@ namespace Proje.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _singInManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
         public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, SignInManager<AppUser> singInManager)
         {
             _logger = logger;
             _userManager = userManager;
-            _singInManager = singInManager;
+            _signInManager = singInManager;
         }
 
 
@@ -77,7 +77,7 @@ namespace Proje.Web.Controllers
                 ModelState.AddModelError(string.Empty, "Email veya şifre yanlış");
                 return View();
             }
-            var signInResult = await _singInManager.PasswordSignInAsync(hasUser, request.Password, request.RememberMe,true);
+            var signInResult = await _signInManager.PasswordSignInAsync(hasUser, request.Password, request.RememberMe,true);
 
             if (signInResult.IsLockedOut)
             {
@@ -95,6 +95,44 @@ namespace Proje.Web.Controllers
 
             return Redirect(returnUrl);
         }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         
         public IActionResult Privacy()
         {

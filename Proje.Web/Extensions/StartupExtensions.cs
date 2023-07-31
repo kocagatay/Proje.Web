@@ -9,10 +9,10 @@ namespace Proje.Web.Extensions
     {
         public static void AddIdentityWithExt(this IServiceCollection services)
         {
-            //services.Configure<DataProtectionTokenProviderOptions>(opt =>
-            //{
-            //    opt.TokenLifespan = TimeSpan.FromHours(2);
-            //});
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+            {
+                opt.TokenLifespan = TimeSpan.FromHours(2);
+            });
 
 
 
